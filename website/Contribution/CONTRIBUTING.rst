@@ -952,6 +952,10 @@ Models
         )
         price = fields.Integer(string='Price')
 
+        # Inherited fields
+        inherited_field = fields.Char(string="New string")
+        inherited_field_2 = fields.Char(readonly=True)
+
         # SQL constraints
         _sql_constraints = [
             ('name_uniq', 'unique(name)', 'Name must be unique'),
@@ -1014,6 +1018,11 @@ Fields
   .. code-block:: python
 
       a_field(..., default=lambda self: self._default_get())
+* New fields must be declared first, followed by any inherited or overridden fields.
+  If a model overrides or extends fields, a ``# Inherited fields`` comment must be
+  placed immediately before their declaration. This clearly distinguishes them from
+  new fields and accelerates version migrations by making upstream attribute or name
+  changes easier to audit.
 
 Exceptions
 ==========
